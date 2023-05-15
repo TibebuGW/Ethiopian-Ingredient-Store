@@ -3,7 +3,8 @@ import Dropdown from "../dropdown";
 import { Link } from "react-router-dom";
 import profile from "../../assets/images/profile.jpg";
 import logo from "../../assets/images/logo.jpg";
-import {FaCartPlus} from 'react-icons/fa'
+import { FaCartPlus } from "react-icons/fa";
+import { BsCart } from "react-icons/bs";
 const Navbar = (props: {
   onOpenSidenav: () => void;
   brandText: string;
@@ -20,11 +21,14 @@ const Navbar = (props: {
         </Link>
       </div>
 
-      <div>
-      </div>
+      <div></div>
 
       <div className="flex mr-7">
-        <FaCartPlus style={{fontSize: "40px", marginRight: "50px", cursor: "pointer"}} />
+        <Link to="/cart">
+          <BsCart
+            style={{ fontSize: "40px", marginRight: "50px", cursor: "pointer" }}
+          />
+        </Link>
         <Dropdown
           button={
             <img

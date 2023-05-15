@@ -6,6 +6,7 @@ const Home = () => {
     <div>
       <Navbar />
       <Items className="mt-5 mb-10" />
+      <div className="mt-5"></div>
     </div>
   )
 }
