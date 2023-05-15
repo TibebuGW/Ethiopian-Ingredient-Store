@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Items className="mt-5" />
+      <Items className="mt-5 mb-10" />
     </div>
   )
 }

@@ -14,7 +14,8 @@ export default {
       gradientPrimary: '',
       white: '#ffffff',
       grey: '#e1e4f0',
-      lightGrey: '#cccccc'
+      lightGrey: '#cccccc',
+      red: '#e02828'
     },
     width: {
       "1p": "1%",
@@ -121,7 +122,8 @@ export default {
     textColor: {
       primary: 'black',
       secondary: 'white',
-      blue: 'blue'
+      blue: 'blue',
+      red: 'red'
     },
     gradientColorStops: {
       'blue-purple': {
