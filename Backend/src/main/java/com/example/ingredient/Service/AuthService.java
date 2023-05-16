@@ -77,6 +77,7 @@ public class AuthService {
 
         return ResponseEntity.ok(new JwtResponse(
                 jwt,
+                userDetails.getImage(),
                 userDetails.getId(),
                 userDetails.getFirstName(),
                 userDetails.getLastName(),

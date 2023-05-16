@@ -20,14 +20,17 @@ public class UserDetailsImpl implements UserDetails {
 
     private String email;
 
+    private String image;
+
     @JsonIgnore
     private String password;
 
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String firstName,String lastName, String email, String password,
+    public UserDetailsImpl(String image,Long id, String firstName,String lastName, String email, String password,
                            Collection<? extends GrantedAuthority> authorities ) {
+        this.image = image;
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,6 +42,7 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getName().name())));
         return new UserDetailsImpl(
+                user.getImagePath(),
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -77,6 +81,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getLastName() {
         return lastName;
     }
+
+    public String getImage() {return image;}
 
     @Override
     public boolean isAccountNonExpired() {
