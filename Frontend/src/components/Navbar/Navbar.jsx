@@ -39,7 +39,7 @@ const Navbar = () => {
           button={
             <img
               className="h-10 w-10 rounded-full cursor-pointer"
-              src={auth.imagepath}
+              src={auth.image}
               alt="profile"
             />
           }

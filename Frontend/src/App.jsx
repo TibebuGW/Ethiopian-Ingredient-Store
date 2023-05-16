@@ -22,7 +22,7 @@ function App() {
       <StoreContextProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Protected isLoggedIn={isLoggedIn}><Home /></Protected>} />
             <Route path="/profile" element={<Protected isLoggedIn={isLoggedIn}><Profile /></Protected>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

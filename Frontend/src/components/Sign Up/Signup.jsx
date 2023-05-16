@@ -17,7 +17,7 @@ export const Signup = () => {
     setFirstName(e.target.value);
   };
 
-  const handlelastNameChange = (e) => {
+  const handleLastNameChange = (e) => {
     setlastName(e.target.value);
   };
 
@@ -86,7 +86,7 @@ export const Signup = () => {
               placeholder="last name"
               type="text"
               value={lastName}
-              onChange={handlelastNameChange}
+              onChange={handleLastNameChange}
             />
           </div>
         </div>

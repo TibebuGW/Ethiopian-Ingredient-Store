@@ -18,7 +18,6 @@ const Items = () => {
             }
           }
         );
-        console.log(response.data.result)
         setItems(response.data.result);
       } catch (error) {
         console.error(error);

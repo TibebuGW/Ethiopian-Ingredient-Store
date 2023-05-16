@@ -12,7 +12,8 @@ export const AuthContextProvider = (props) => {
             lastName: "",
             email: "",
             roles: [""],
-            imagePath: ""
+            image: "",
+            id: "",
         }
     }
 
