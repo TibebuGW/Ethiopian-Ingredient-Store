@@ -5,6 +5,7 @@ import com.example.ingredient.Dtos.Auth.SignUpRequest;
 import com.example.ingredient.Service.AuthService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +24,7 @@ public class AuthController {
         return authService.login(loginRequest);
     }
 
-    @PostMapping("/signup")
+    @PostMapping(value ="/signup",consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> registerUser(@RequestParam("file") MultipartFile image, @RequestBody SignUpRequest signUpRequest) {
        return authService.signUp(image,signUpRequest);
     }
