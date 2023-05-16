@@ -20,11 +20,7 @@ const PaymentForm = () => {
           />
         </div>
       </div>
-      <div className="flex justify-center">
-        <button className="py-4 px-16 bg-lightPrimary text-secondary hover:bg-white hover:border-lightPrimary hover:border-2 hover:text-blue transition duration-500 my-3 rounded-lg">
-            Submit
-        </button>
-      </div>
+      
     </div>
   );
 };
