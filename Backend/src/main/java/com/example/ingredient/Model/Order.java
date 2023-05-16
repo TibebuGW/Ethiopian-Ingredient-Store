@@ -30,16 +30,16 @@ public class Order {
     @NotBlank
     private String deliveryStreet;
 
-    @NotBlank
-    @ManyToOne
-    private Address address;
+//    @NotBlank
+//    @ManyToOne
+//    private Address address;
 
     @NotBlank
     @ManyToOne
     private User orderedBy;
 
-    @NotBlank
-    private Date orderedAt;
-
-    private Date deliveredAt;
+//    @NotBlank
+//    private Date orderedAt;
+//
+//    private Date deliveredAt;
 }
