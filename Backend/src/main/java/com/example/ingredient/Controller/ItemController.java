@@ -30,7 +30,7 @@ public class ItemController {
     }
 
     @PostMapping(consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addItem(@RequestParam("file") MultipartFile image, ItemDto itemDto){
+    public ResponseEntity<?> addItem(@RequestBody MultipartFile image, @RequestBody ItemDto itemDto){
         return itemService.add(image,itemDto);
     }
 
