@@ -1,15 +1,21 @@
-import React from "react";
+/* eslint-disable react/no-children-prop */
+import { useContext } from "react";
 import Dropdown from "../dropdown";
-import { Link } from "react-router-dom";
-import profile from "../../assets/images/profile.jpg";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
-import { FaCartPlus } from "react-icons/fa";
 import { BsCart } from "react-icons/bs";
-const Navbar = (props: {
-  onOpenSidenav: () => void;
-  brandText: string;
-  secondary?: boolean | string;
-}) => {
+import { AuthContext } from "../../contexts/auth-context";
+const Navbar = () => {
+  const navigate = useNavigate();
+
+  const { auth, setAuth, setIsLoggedIn, resetAuth, resetIsLoggedIn } = useContext(AuthContext);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setAuth(resetAuth);
+    setIsLoggedIn(resetIsLoggedIn);
+    navigate("/login");
+  };
+
   return (
     <nav className="sticky top-0 z-40 py-5 flex flex-row flex-wrap items-center justify-between backdrop-blur-xl shadow-xl">
       <div className="ml-7">
@@ -33,7 +39,7 @@ const Navbar = (props: {
           button={
             <img
               className="h-10 w-10 rounded-full cursor-pointer"
-              src={profile}
+              src={auth.imagepath}
               alt="profile"
             />
           }
@@ -43,16 +49,22 @@ const Navbar = (props: {
                 <Link to="/profile">
                   <h5 className="my-2 text-primary">Profile</h5>
                 </Link>
-                <Link to="/orders">
-                  <h5 className="my-2 text-primary">Orders</h5>
-                </Link>
-                <Link to="/create-account">
-                  <h5 className="my-2 text-primary">Create Account</h5>
-                </Link>
+                {auth.roles[0] === "ROLE_ADMIN" && (
+                  <Link to="/orders">
+                    <h5 className="my-2 text-primary">Orders</h5>
+                  </Link>
+                )}
+                {auth.roles[0] === "ROLE_ADMIN" && (
+                  <Link to="/create-account">
+                    <h5 className="my-2 text-primary">Create Account</h5>
+                  </Link>
+                )}
                 <hr className="h-0.5 border-t-0 bg-neutral-100 opacity-500 dark:opacity-50" />
-                <Link to="/">
-                  <h5 className="my-2 text-red">Logout</h5>
-                </Link>
+                <button onClick={handleLogout}>
+                  <h5 className="my-2 text-red">
+                    Logout
+                  </h5>
+                </button>
               </div>
             </div>
           }

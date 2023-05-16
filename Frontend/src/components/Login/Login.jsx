@@ -1,51 +1,52 @@
-import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../contexts/auth-context";
-const LOGIN_URL = "auth/signin"
-
+const LOGIN_URL = "auth/signin";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const {setAuth} = useContext(AuthContext)
-
+  const { setAuth, setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
   const handleClick = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BASE_URL}${LOGIN_URL}`,
-        JSON.stringify({email, password}),
-        {
-          headers: {'Content-Type': 'application/json'},
-          withCredentials: true
-        }
-      )
-      
-      if (response.data.status === 200){
-        const accessToken = response?.data?.accessToken
-        const roles = response?.data?.roles
-        setAuth({email, password, roles, accessToken})
-        console.log("SUCESSFULLY LOGGED IN")
-        this.props.history.push('/')
-      }
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}${LOGIN_URL}`,
+        { email, password }
+      );
 
+      setAuth(response.data);
+      setIsLoggedIn(true)
+      navigate("/")
     } catch (error) {
-      console.log("auth error: ", error)
+      console.log("auth error: ", error);
     }
-  }
+  };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-  }
+    setPassword(e.target.value);
+  };
+
+  useEffect(() => {
+    if (isLoggedIn){
+      navigate("/")
+    }
+    
+  }, []);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
-      <form className="py-3 w-30p h-[400px] px-10 overflow-y-auto rounded-2xl shadow-md box-border bg-[#d6dce9]" onSubmit={handleClick}>
+      <form
+        className="py-3 w-30p h-[400px] px-10 overflow-y-auto rounded-2xl shadow-md box-border bg-[#d6dce9]"
+        onSubmit={handleClick}
+      >
         <div className="my-5">
           <label className="block my-2">Email</label>
           <input
