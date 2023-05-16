@@ -30,8 +30,8 @@ public class ItemController {
     }
 
     @PostMapping(consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addItem(@RequestBody MultipartFile image, @RequestBody ItemDto itemDto){
-        return itemService.add(image,itemDto);
+    public ResponseEntity<?> addItem(@ModelAttribute ItemDto itemDto){
+        return itemService.add(itemDto.getImage(),itemDto);
     }
 
     @PutMapping()

@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping(value ="/signup",consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> registerUser(@RequestParam("file") MultipartFile image, @RequestBody SignUpRequest signUpRequest) {
-       return authService.signUp(image,signUpRequest);
+    public ResponseEntity<?> registerUser(@ModelAttribute SignUpRequest signUpRequest) {
+       return authService.signUp(signUpRequest.getImage(), signUpRequest);
     }
 }
