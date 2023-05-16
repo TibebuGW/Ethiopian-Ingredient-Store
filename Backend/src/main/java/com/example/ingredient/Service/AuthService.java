@@ -46,7 +46,7 @@ public class AuthService {
         Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
         if(admin.isEmpty() && adminRole.isPresent()){
             User newAdmin = new User(
-                    "",
+                    "https://res.cloudinary.com/dmahd3die/image/upload/v1684245855/photo_2023-05-16_17-03-59_mm7b0z.jpg",
                     "admin",
                     "admin",
                     "admin@admin.com",
