@@ -29,7 +29,14 @@ const CreateItem = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = { name, description, price, image }
+    const data = {
+        image,
+        "itemDto" : {
+            name,
+            description,
+            price
+        }
+    }
     axios({
         method: "post",
         url: `${import.meta.env.VITE_REACT_APP_BASE_URL}${CREATE_ITEM_URL}`,
