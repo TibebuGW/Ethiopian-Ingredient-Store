@@ -22,7 +22,7 @@ const Checkout = () => {
                 <div key={item.id} className="my-3">
                   <p className="font-semibold text-lg my-2">{item.name}</p>
                   <div className="flex items-center justify-between">
-                    <p className="font-light text-base">
+                    <p className="font-bold text-base">
                       Quantity: {cartItems[item.id]}
                     </p>
                     <p className="font-bold text-xl">

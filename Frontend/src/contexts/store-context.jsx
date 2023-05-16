@@ -23,9 +23,11 @@ export const StoreContextProvider = (props) => {
     setCartItems((prev) => ({...prev, [id]: prev[id] + 1}))  
   }
 
-  const removeFromCart = (id) => [
-    setCartItems((prev) => ({...prev, [id]: prev[id] - 1}))
-  ]
+  const removeFromCart = (id) => {
+    if (cartItems[id] > 0){
+      setCartItems((prev) => ({...prev, [id]: prev[id] - 1}))
+    }
+  }
 
   const resetCart = () => {
     setCartItems(getDefaultCart)
