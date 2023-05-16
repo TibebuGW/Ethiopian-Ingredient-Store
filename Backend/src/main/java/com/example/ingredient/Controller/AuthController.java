@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
@@ -19,12 +19,12 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-       return authService.signUp(signUpRequest);
+    public ResponseEntity<?> registerUser(@RequestParam("file") MultipartFile image, @RequestBody SignUpRequest signUpRequest) {
+       return authService.signUp(image,signUpRequest);
     }
 }

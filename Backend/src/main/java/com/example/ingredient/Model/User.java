@@ -33,6 +33,8 @@ public class User {
     @NotBlank
     private String password;
 
+    private String imagePath;
+
     private Long scopeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,7 +44,8 @@ public class User {
     private Role role ;
 
 
-    public User(String firstName,String lastName, String email, String password) {
+    public User(String imagePath,String firstName,String lastName, String email, String password) {
+        this.imagePath= imagePath;
         this.firstName= firstName;
         this.lastName = lastName;
         this.email= email;

@@ -17,8 +17,11 @@ public class ItemController {
     ItemService itemService;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getItems(){
-        return itemService.getAll();
+    public ResponseEntity<?> getItems(@RequestParam(required = false)String searchQuery,
+                                      @RequestParam(required = false)Double priceMin ,
+                                      @RequestParam(required = false) Double priceMax,
+                                      int pageStart){
+        return itemService.getAll(searchQuery,priceMin,priceMax,pageStart);
     }
 
     @GetMapping()

@@ -4,13 +4,14 @@ import com.example.ingredient.Dtos.ItemDto;
 import com.example.ingredient.Model.Item;
 import com.example.ingredient.Repository.ItemRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +20,27 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final CloudinaryService cloudinaryService;
 
-    public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(itemRepository.findAll());
+    public ResponseEntity<?> getAll(String searchQuery,
+                                    Double priceMin ,
+                                    Double priceMax,
+                                    int pageStart){
+        Map<String,Object> result = new HashMap<>();
+        String nameQuery = Objects.nonNull(searchQuery)?searchQuery+"%": "%%";
+        String descQuery =
+                Objects.nonNull(searchQuery)
+                        ?searchQuery.length() > 3
+                        ? "%"+searchQuery+"%"
+                        :"%%"
+                        : "%%";
+        Page<Item> items = itemRepository.findByBothPriceAndSearch(
+                nameQuery,
+                descQuery,
+                priceMin,
+                priceMax,
+                PageRequest.of(pageStart,10));
+        result.put("result",items.getContent());
+        result.put("total", items.getTotalElements());
+        return ResponseEntity.ok(result);
     }
 
     public ResponseEntity<?> get(Long id){

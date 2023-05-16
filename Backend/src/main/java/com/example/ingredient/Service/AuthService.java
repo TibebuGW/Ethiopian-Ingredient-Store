@@ -20,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +39,14 @@ public class AuthService {
 
     private final JwtUtils jwtUtils;
 
+    private final CloudinaryService cloudinaryService;
+
     public void init(){
         Optional<User> admin= userRepository.findByEmail("admin@admin.com");
         Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
         if(admin.isEmpty() && adminRole.isPresent()){
             User newAdmin = new User(
+                    "",
                     "admin",
                     "admin",
                     "admin@admin.com",
@@ -77,7 +81,7 @@ public class AuthService {
                 roles ));
     }
 
-    public ResponseEntity signUp(SignUpRequest signUpRequest){
+    public ResponseEntity signUp(MultipartFile image,SignUpRequest signUpRequest){
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -90,8 +94,10 @@ public class AuthService {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        String imagePath = cloudinaryService.uploadFile(image);
         // Create new user's account
         User user = new User(
+                imagePath,
                 signUpRequest.getFirstName(),
                 signUpRequest.getFirstName(),
                 signUpRequest.getEmail(),
