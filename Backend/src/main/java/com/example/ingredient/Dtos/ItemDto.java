@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Data
 public class ItemDto {
+
+    private MultipartFile image;
+
     @NotBlank
     private String name;
 
