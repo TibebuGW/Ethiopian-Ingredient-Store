@@ -1,22 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const REGISTER_URL = "auth/signup";
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState("");
-  const [secondName, setSecondName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const navigate = useNavigate()
+  
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
   };
 
-  const handleSecondNameChange = (e) => {
-    setSecondName(e.target.value);
+  const handlelastNameChange = (e) => {
+    setlastName(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -38,17 +39,17 @@ export const Signup = () => {
       // eslint-disable-next-line no-unused-vars
       const response = await axios.post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}${REGISTER_URL}`,
-        JSON.stringify({ email, password }),
         {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
+          firstName,
+          lastName,
+          email,
+          password,
+          role: "customer"
+        },
       );
 
       // eslint-disable-next-line no-constant-condition
-      if (200){
-        this.props.history.push('/login')
-      }
+        navigate("/login")
     } catch (error) {
       console.log("auth error: ", error);
     }
@@ -72,13 +73,13 @@ export const Signup = () => {
             />
           </div>
           <div className="my-2">
-            <label className="block my-2">Second Name</label>
+            <label className="block my-2">last Name</label>
             <input
               className="box-border shadow py-2 px-5 rounded-md w-100p placeholder:font-medium"
-              placeholder="Second name"
+              placeholder="last name"
               type="text"
-              value={secondName}
-              onChange={handleSecondNameChange}
+              value={lastName}
+              onChange={handlelastNameChange}
             />
           </div>
         </div>
