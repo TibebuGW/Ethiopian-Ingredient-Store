@@ -34,4 +34,8 @@ public class AuthController {
         return authService.edit(id, signUpRequest);
     }
 
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser(Long id){
+        return authService.delete(id);
+    }
 }

@@ -72,6 +72,7 @@ public class ItemService {
             Optional<Item> item = itemRepository.findById(id);
             if(item.isPresent()){
                 if(Objects.nonNull(newItem.getImage())){
+                    cloudinaryService.delete(item.get().getImage());
                     String imagePath = cloudinaryService.uploadFile(newItem.getImage());
                     item.get().setImage(imagePath);
                 }
@@ -91,6 +92,7 @@ public class ItemService {
     public ResponseEntity<?> delete(Long id){
         Optional<Item> item = itemRepository.findById(id);
         if(item.isPresent()){
+            cloudinaryService.delete(item.get().getImage());
             itemRepository.deleteById(id);
             return ResponseEntity.ok("Deleted");
         }else{

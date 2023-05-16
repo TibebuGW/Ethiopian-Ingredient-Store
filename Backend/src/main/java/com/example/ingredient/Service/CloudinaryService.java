@@ -9,13 +9,29 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class CloudinaryService {
 
     private final Cloudinary cloudinaryConfig;
+
+    public void delete(String path){
+        try{
+            String[] parts = path.split("/");
+            if(parts.length>0){
+                Optional<String> name = Arrays.stream(parts[parts.length-1].split("\\.")).findFirst();
+                if(name.isPresent()){
+                    Map deleteResult = cloudinaryConfig.uploader().destroy(name.get(),ObjectUtils.emptyMap());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public String uploadFile(MultipartFile image) {

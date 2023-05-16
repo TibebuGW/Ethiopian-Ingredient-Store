@@ -6,6 +6,7 @@ import com.example.ingredient.Dtos.Auth.LoginRequest;
 import com.example.ingredient.Dtos.Auth.MessageResponse;
 import com.example.ingredient.Dtos.Auth.SignUpRequest;
 import com.example.ingredient.Model.ERole;
+import com.example.ingredient.Model.Item;
 import com.example.ingredient.Model.Role;
 import com.example.ingredient.Model.User;
 import com.example.ingredient.Repository.RoleRepository;
@@ -135,6 +136,7 @@ public class AuthService {
         if(user.isPresent()){
             try{
                 if(Objects.nonNull(signUpRequest.getImage())){
+                    cloudinaryService.delete(user.get().getImagePath());
                     String imagePath = cloudinaryService.uploadFile(signUpRequest.getImage());
                     user.get().setImagePath(imagePath);
                 }
@@ -158,6 +160,17 @@ public class AuthService {
             }
         }else{
             return new ResponseEntity<>( "User Not Found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<?> delete(Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            cloudinaryService.delete(user.get().getImagePath());
+            userRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted");
+        }else{
+            return new ResponseEntity<>( "Not Found",HttpStatus.BAD_REQUEST);
         }
     }
 }
