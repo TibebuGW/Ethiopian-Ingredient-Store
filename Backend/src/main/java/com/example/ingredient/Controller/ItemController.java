@@ -34,9 +34,9 @@ public class ItemController {
         return itemService.add(itemDto.getImage(),itemDto);
     }
 
-    @PutMapping()
-    public ResponseEntity<?> editItem(Item item){
-        return itemService.edit(item);
+    @PutMapping(consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> editItem(@RequestParam Long id, @ModelAttribute ItemDto item){
+        return itemService.edit(id,item);
     }
 
     @DeleteMapping()

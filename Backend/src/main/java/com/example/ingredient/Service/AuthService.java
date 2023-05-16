@@ -12,6 +12,7 @@ import com.example.ingredient.Repository.RoleRepository;
 import com.example.ingredient.Repository.UserRepository;
 import com.example.ingredient.Service.UserDetail.UserDetailsImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -110,7 +112,7 @@ public class AuthService {
             user.setRole(userRole);
         } else {
             switch (signUpRequest.getRole().toLowerCase()) {
-                case "district":
+                case "admin":
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     user.setRole(adminRole);
@@ -128,4 +130,34 @@ public class AuthService {
 
     }
 
+    public ResponseEntity<?> edit(Long id, SignUpRequest signUpRequest) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            try{
+                if(Objects.nonNull(signUpRequest.getImage())){
+                    String imagePath = cloudinaryService.uploadFile(signUpRequest.getImage());
+                    user.get().setImagePath(imagePath);
+                }
+                user.get().setPassword(encoder.encode(signUpRequest.getPassword()));
+                user.get().setEmail(signUpRequest.getEmail());
+                user.get().setFirstName(signUpRequest.getFirstName());
+                if(signUpRequest.getRole().equalsIgnoreCase("admin")){
+                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    user.get().setRole(adminRole);
+                }else{
+                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    user.get().setRole(userRole);
+                }
+                user.get().setLastName(signUpRequest.getFirstName());
+                User savedUser = userRepository.save(user.get());
+                return ResponseEntity.ok(savedUser);
+            }catch(Exception exception){
+                return new ResponseEntity<>( "Unable to Edit", HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity<>( "User Not Found", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

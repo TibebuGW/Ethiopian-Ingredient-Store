@@ -35,7 +35,6 @@ public class User {
 
     private String imagePath;
 
-    private Long scopeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",

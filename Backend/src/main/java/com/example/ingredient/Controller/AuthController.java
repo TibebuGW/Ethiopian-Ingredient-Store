@@ -28,4 +28,10 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@ModelAttribute SignUpRequest signUpRequest) {
        return authService.signUp(signUpRequest.getImage(), signUpRequest);
     }
+
+    @PutMapping(value ="/edit",consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> editUser(@RequestParam Long id,@ModelAttribute SignUpRequest signUpRequest) {
+        return authService.edit(id, signUpRequest);
+    }
+
 }

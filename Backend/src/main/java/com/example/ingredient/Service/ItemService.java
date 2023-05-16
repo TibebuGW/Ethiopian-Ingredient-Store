@@ -67,10 +67,22 @@ public class ItemService {
         }
     }
 
-    public ResponseEntity<?> edit(Item item){
+    public ResponseEntity<?> edit(Long id,ItemDto newItem){
         try{
-            Item savedItem = itemRepository.save(item);
-            return ResponseEntity.ok(savedItem);
+            Optional<Item> item = itemRepository.findById(id);
+            if(item.isPresent()){
+                if(Objects.nonNull(newItem.getImage())){
+                    String imagePath = cloudinaryService.uploadFile(newItem.getImage());
+                    item.get().setImage(imagePath);
+                }
+                item.get().setPrice(newItem.getPrice());
+                item.get().setDescription(newItem.getDescription());
+                item.get().setName(newItem.getName());
+                Item savedItem = itemRepository.save(item.get());
+                return ResponseEntity.ok(savedItem);
+            }else{
+                return new ResponseEntity<>( "Item Not Found",HttpStatus.BAD_REQUEST);
+            }
         }catch (Exception exception){
             return new ResponseEntity<>( "Unable to Edit",HttpStatus.BAD_REQUEST);
         }
