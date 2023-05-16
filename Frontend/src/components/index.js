@@ -7,5 +7,6 @@ import Checkout from "./Checkout/Checkout";
 import Orders from "./Orders/Orders";
 import CreateAccount from "./Create Account/CreateAccount";
 import ProductItem from "./Cards/ProductItem";
+import CreateItem from "./Create Item/CreateItem";
 
-export {Home, Profile, Login, Signup, Cart, Checkout, Orders, CreateAccount, ProductItem}
+export {Home, Profile, Login, Signup, Cart, Checkout, Orders, CreateAccount, ProductItem, CreateItem}

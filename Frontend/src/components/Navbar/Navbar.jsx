@@ -59,6 +59,11 @@ const Navbar = () => {
                     <h5 className="my-2 text-primary">Create Account</h5>
                   </Link>
                 )}
+                {auth.roles[0] === "ROLE_ADMIN" && (
+                  <Link to="/create-item">
+                    <h5 className="my-2 text-primary">Create Item</h5>
+                  </Link>
+                )}
                 <hr className="h-0.5 border-t-0 bg-neutral-100 opacity-500 dark:opacity-50" />
                 <button onClick={handleLogout}>
                   <h5 className="my-2 text-red">

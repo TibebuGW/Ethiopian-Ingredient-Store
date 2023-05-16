@@ -8,6 +8,7 @@ import {
   Checkout,
   Orders,
   CreateAccount,
+  CreateItem
 } from "./components";
 import { StoreContextProvider } from "./contexts/store-context";
 import { useContext } from "react";
@@ -29,6 +30,7 @@ function App() {
             <Route path="/checkout" element={<Protected isLoggedIn={isLoggedIn}><Checkout /></Protected>} />
             <Route path="/orders" element={<AdminProtected isLoggedIn={isLoggedIn} role={auth.roles[0]}><Orders /></AdminProtected>} />
             <Route path="/create-account" element={<AdminProtected isLoggedIn={isLoggedIn} role={auth.roles[0]}><CreateAccount /></AdminProtected>} />
+            <Route path="/create-item" element={<AdminProtected isLoggedIn={isLoggedIn} role={auth.roles[0]}><CreateItem /></AdminProtected>} />
           </Routes>
         </Router>
       </StoreContextProvider>
