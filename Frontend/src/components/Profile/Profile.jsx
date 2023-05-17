@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const UPDATE_URL = "auth/edit";
 
 const Profile = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const [firstName, setFirstName] = useState(auth.firstName);
   const [lastName, setLastName] = useState(auth.lastName);
   const [email, setEmail] = useState(auth.email);
@@ -49,8 +49,8 @@ const Profile = () => {
     data.append("lastName", lastName);
     data.append("email", email);
     data.append("password", password);
-    data.append("image", image);
-    data.append("role", auth.role);
+    // data.append("image", image);
+    data.append("role", auth.roles[0] === "ROLE_ADMIN" ? "admin" : "user");
     try {
       // eslint-disable-next-line no-unused-vars
       const response = await axios.put(
@@ -65,6 +65,7 @@ const Profile = () => {
       );
 
       // eslint-disable-next-line no-constant-condition
+      setAuth((prev) => ({...prev, [lastName]: response.data.lastName}))
       navigate("/login");
     } catch (error) {
       console.log("auth error: ", error);
