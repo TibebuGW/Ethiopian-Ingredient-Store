@@ -17,7 +17,7 @@ public class SingleOrder {
     private Long id;
 
     @NotBlank
-    @ManyToOne
+    @OneToOne
     private Item item;
 
     @NotBlank

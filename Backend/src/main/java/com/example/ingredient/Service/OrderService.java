@@ -1,19 +1,31 @@
 package com.example.ingredient.Service;
 
+import com.example.ingredient.Dtos.OrderDto;
+import com.example.ingredient.Model.Item;
 import com.example.ingredient.Model.Order;
+import com.example.ingredient.Model.SingleOrder;
+import com.example.ingredient.Model.User;
+import com.example.ingredient.Repository.ItemRepository;
 import com.example.ingredient.Repository.OrderRepository;
+import com.example.ingredient.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
+
 
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(orderRepository.findAll());
@@ -28,10 +40,26 @@ public class OrderService {
         }
     }
 
-    public ResponseEntity<?> add(Order order){
+    public ResponseEntity<?> add(OrderDto order){
         try{
-            Order savedItem = orderRepository.save(order);
-            return ResponseEntity.ok(savedItem);
+            User user = userRepository.findById(order.getOrderedBy())
+                    .orElseThrow(() -> new RuntimeException("Error: User is not found."));
+            AtomicReference<Double> total = new AtomicReference<>(0.0);
+            List<SingleOrder> singleOrders = order.getItems().stream().map((singleOrderDto -> {
+                Item item = itemRepository.findById(singleOrderDto.getItem())
+                        .orElseThrow(() -> new RuntimeException("Error: Item is not found."));
+                total.updateAndGet(v -> v + item.getPrice() * singleOrderDto.getQuantity());
+                SingleOrder singleOrder = new SingleOrder();
+                singleOrder.setItem(item);
+                singleOrder.setQuantity(singleOrderDto.getQuantity());
+                return  singleOrder;
+            })).collect(Collectors.toList());
+            Order newOrder = new Order();
+            newOrder.setOrderedBy(user);
+            newOrder.setItems(singleOrders);
+            newOrder.setTotal(total.get());
+            Order savedOrder = orderRepository.save(newOrder);
+            return ResponseEntity.ok(savedOrder);
         }catch (Exception exception){
             return new ResponseEntity<>( "Unable to Save",HttpStatus.BAD_REQUEST);
         }
@@ -39,8 +67,8 @@ public class OrderService {
 
     public ResponseEntity<?> edit(Order order){
         try{
-            Order savedItem = orderRepository.save(order);
-            return ResponseEntity.ok(savedItem);
+            Order savedOrder = orderRepository.save(order);
+            return ResponseEntity.ok(savedOrder);
         }catch (Exception exception){
             return new ResponseEntity<>( "Unable to Edit",HttpStatus.BAD_REQUEST);
         }

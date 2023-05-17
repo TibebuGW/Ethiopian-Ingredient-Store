@@ -1,5 +1,6 @@
 package com.example.ingredient.Controller;
 
+import com.example.ingredient.Dtos.OrderDto;
 import com.example.ingredient.Model.Item;
 import com.example.ingredient.Model.Order;
 import com.example.ingredient.Service.OrderService;
@@ -25,7 +26,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addOrder(Order order){
+    public ResponseEntity<?> addOrder(@RequestBody OrderDto order){
         return orderService.add(order);
     }
 

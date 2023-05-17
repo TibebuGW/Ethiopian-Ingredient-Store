@@ -4,11 +4,12 @@ package com.example.ingredient.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Entity
 @NoArgsConstructor
@@ -24,22 +25,15 @@ public class Order {
     private Long id;
 
     @NotBlank
-    @OneToMany
-    private List<SingleOrder> Items;
+    @OneToMany()
+    private List<SingleOrder> items;
+
 
     @NotBlank
-    private String deliveryStreet;
-
-//    @NotBlank
-//    @ManyToOne
-//    private Address address;
-
-    @NotBlank
-    @ManyToOne
+    @OneToOne()
     private User orderedBy;
 
-//    @NotBlank
-//    private Date orderedAt;
-//
-//    private Date deliveredAt;
+
+    private Double total;
+
 }
