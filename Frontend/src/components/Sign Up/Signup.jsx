@@ -10,13 +10,14 @@ export const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [image, setImage] = useState(null);
   const navigate = useNavigate()
   
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
   };
 
-  const handlelastNameChange = (e) => {
+  const handleLastNameChange = (e) => {
     setlastName(e.target.value);
   };
 
@@ -32,20 +33,26 @@ export const Signup = () => {
     setConfirmPassword(e.target.value);
   };
 
+  const handleImageChange = () => {
+    setImage(document.getElementById("image").files[0]);
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
 
+    const data = new FormData()
+    data.append("firstName", firstName)
+    data.append("lastName", lastName)
+    data.append("email", email)
+    data.append("password", password)
+    data.append("image", image)
+    data.append("role", "user")
     try {
       // eslint-disable-next-line no-unused-vars
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}${REGISTER_URL}`,
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-          role: "customer"
-        },
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}${REGISTER_URL}`, 
+        data, 
+        {headers: { 'Content-Type': 'multipart/form-data' }}
       );
 
       // eslint-disable-next-line no-constant-condition
@@ -79,7 +86,7 @@ export const Signup = () => {
               placeholder="last name"
               type="text"
               value={lastName}
-              onChange={handlelastNameChange}
+              onChange={handleLastNameChange}
             />
           </div>
         </div>
@@ -113,6 +120,15 @@ export const Signup = () => {
             onChange={handleConfirmPasswordChange}
           />
         </div>
+        <div className="my-2">
+            <label className="block my-2">Image</label>
+            <input
+              id="image"
+              className="box-border shadow py-2 px-5 rounded-md w-100p placeholder:font-medium"
+              type="file"
+              onChange={handleImageChange}
+            />
+          </div>
         <button className="py-2 px-5 my-3 text-secondary rounded-md w-100p bg-lightPrimary hover:bg-darkPrimary">
           Sign up
         </button>

@@ -15,7 +15,9 @@ export default {
       white: '#ffffff',
       grey: '#e1e4f0',
       lightGrey: '#cccccc',
-      red: '#e02828'
+      darkGrey: '#292727',
+      middleGrey: '#a8a0a0',
+      red: '#e02828',
     },
     width: {
       "1p": "1%",
