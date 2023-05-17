@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
@@ -19,8 +20,8 @@ const Checkout = () => {
     var allItems = items.map((item) => {
       if (cartItems[item.id] > 0){
         return {
-          Item : item.id,
-          Quantity: cartItems[item.id]
+          item : item.id,
+          quantity: cartItems[item.id]
         }
       }else{
         return null
@@ -42,8 +43,8 @@ const Checkout = () => {
     console.log("all: ", allItems)
     
     const data = {
-      OrderedBy: auth.id,
-      Items: allItems
+      orderedBy: auth.id,
+      items: allItems
     }
     try {
       
@@ -51,7 +52,7 @@ const Checkout = () => {
         `${import.meta.env.VITE_REACT_APP_BASE_URL}${ORDER_URL}`,
         data)
 
-      console.log(response.data)
+      // console.log(response.data)
       resetCart()
       navigate("/")
     } catch (error) {
