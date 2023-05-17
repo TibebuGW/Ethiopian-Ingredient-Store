@@ -16,30 +16,34 @@ const Checkout = () => {
 
   const handleClick = async (e) => {
     e.preventDefault()
-    const allItems = items.map((item) => {
+    var allItems = items.map((item) => {
       if (cartItems[item.id] > 0){
         return {
-          "item" : {
-            "id": item.id,
-            "name": item.name,
-            "description": item.description,
-            "price": item.price,
-            "image": item.image,
-          },
-          "quantity": cartItems[item.id]
+          Item : item.id,
+          Quantity: cartItems[item.id]
         }
+      }else{
+        return null
       }
     })
+
+    const checkItem = (item) => {
+      if (item === null){
+        return false
+      }
+      return true
+    }
+    const filterAllItems = () => {
+      const tempAllItems = allItems.filter(checkItem)
+      return tempAllItems
+    }
+    
+    allItems = filterAllItems()
+    console.log("all: ", allItems)
+    
     const data = {
-      "orderedBy": {
-        "id": auth.id,
-        "firstName": auth.firstName,
-        "lastName": auth.lastName,
-        "email": auth.email,
-        "imagePath": auth.image,
-        "role": auth.role
-      },
-      "items": allItems
+      OrderedBy: auth.id,
+      Items: allItems
     }
     try {
       
