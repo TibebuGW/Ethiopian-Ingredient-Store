@@ -145,6 +145,7 @@ public class AuthService {
                 user.get().setPassword(encoder.encode(signUpRequest.getPassword()));
                 user.get().setEmail(signUpRequest.getEmail());
                 user.get().setFirstName(signUpRequest.getFirstName());
+                user.get().setLastName(signUpRequest.getLastName());
                 if(signUpRequest.getRole().equalsIgnoreCase("admin")){
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
