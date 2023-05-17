@@ -61,7 +61,8 @@ public class OrderService {
             Order savedOrder = orderRepository.save(newOrder);
             return ResponseEntity.ok(savedOrder);
         }catch (Exception exception){
-            return new ResponseEntity<>( "Unable to Save",HttpStatus.BAD_REQUEST);
+            System.out.println(exception.getMessage());
+            return new ResponseEntity<>( exception.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

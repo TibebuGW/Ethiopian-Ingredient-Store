@@ -25,7 +25,7 @@ public class Order {
     private Long id;
 
     @NotBlank
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     private List<SingleOrder> items;
 
 
