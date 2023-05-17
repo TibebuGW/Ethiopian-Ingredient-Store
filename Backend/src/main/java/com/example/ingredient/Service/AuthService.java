@@ -167,7 +167,8 @@ public class AuthService {
     public ResponseEntity<?> delete(Long id){
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
-            cloudinaryService.delete(user.get().getImagePath());
+            if(Objects.nonNull(user.get().getImagePath()))
+                cloudinaryService.delete(user.get().getImagePath());
             userRepository.deleteById(id);
             return ResponseEntity.ok("Deleted");
         }else{
