@@ -40,7 +40,6 @@ const Checkout = () => {
     }
     
     allItems = filterAllItems()
-    console.log("all: ", allItems)
     
     const data = {
       orderedBy: auth.id,
