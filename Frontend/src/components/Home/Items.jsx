@@ -1,31 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import ProductItem from "../Cards/ProductItem";
-import axios from "axios";
+import { StoreContext } from "../../contexts/store-context";
 
-const GET_ALL_ITEMS_URL = "item/all";
 
 const Items = () => {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BASE_URL}${GET_ALL_ITEMS_URL}`,
-          {
-            params:{
-              pageStart: 0
-            }
-          }
-        );
-        setItems(response.data.result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const {items} = useContext(StoreContext)
 
   return (
     <div className="grid grid-cols-4 gap-4 mt-10">
