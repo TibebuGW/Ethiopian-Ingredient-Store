@@ -137,7 +137,8 @@ public class AuthService {
         if(user.isPresent()){
             try{
                 if(Objects.nonNull(signUpRequest.getImage())){
-                    cloudinaryService.delete(user.get().getImagePath());
+                    if(Objects.nonNull(user.get().getImagePath()))
+                        cloudinaryService.delete(user.get().getImagePath());
                     String imagePath = cloudinaryService.uploadFile(signUpRequest.getImage());
                     user.get().setImagePath(imagePath);
                 }
@@ -157,7 +158,7 @@ public class AuthService {
                 User savedUser = userRepository.save(user.get());
                 return ResponseEntity.ok(savedUser);
             }catch(Exception exception){
-                return new ResponseEntity<>( "Unable to Edit", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>( exception.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity<>( "User Not Found", HttpStatus.BAD_REQUEST);
