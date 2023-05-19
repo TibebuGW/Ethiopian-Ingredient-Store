@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import { StoreContext } from "../../contexts/store-context";
 
 const CREATE_ITEM_URL = "item";
 
@@ -10,6 +11,8 @@ const CreateItem = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState({});
+
+  const {items, setItems} = useContext(StoreContext)
 
   const navigate = useNavigate();
 
@@ -43,6 +46,7 @@ const CreateItem = () => {
       );
 
       console.log(response.data);
+      setItems([...items, response.data])
       navigate("/");
     } catch (error) {
       console.log("item creation error: ", error);

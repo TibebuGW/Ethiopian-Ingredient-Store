@@ -19,7 +19,6 @@ export const Login = () => {
       );
 
       setAuth(response.data);
-      console.log(response.data)
       setIsLoggedIn(true)
       navigate("/")
     } catch (error) {

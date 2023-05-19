@@ -103,7 +103,7 @@ public class AuthService {
         User user = new User(
                 imagePath,
                 signUpRequest.getFirstName(),
-                signUpRequest.getFirstName(),
+                signUpRequest.getLastName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
@@ -155,7 +155,7 @@ public class AuthService {
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     user.get().setRole(userRole);
                 }
-                user.get().setLastName(signUpRequest.getFirstName());
+                user.get().setLastName(signUpRequest.getLastName());
                 User savedUser = userRepository.save(user.get());
                 return ResponseEntity.ok(savedUser);
             }catch(Exception exception){

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Navbar from "../Navbar/Navbar";
 import axios from "axios";
 import { useContext, useState } from "react";
@@ -65,7 +66,17 @@ const Profile = () => {
       );
 
       // eslint-disable-next-line no-constant-condition
-      setAuth((prev) => ({...prev, [lastName]: response.data.lastName}))
+      
+      const temp = {
+        token: auth.token,
+        firstName: auth.firstName,
+        lastName: response.data.lastName,
+        email: auth.email,
+        roles: auth.roles,
+        image: auth.image,
+        id: auth.id,
+      }
+      setAuth(temp)
       navigate("/login");
     } catch (error) {
       console.log("auth error: ", error);
